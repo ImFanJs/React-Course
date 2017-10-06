@@ -1,94 +1,78 @@
 'use strict';
 
-console.log('app.js is running');
-
 // JSX = Javascript XML
-
 var app = {
-    title: 'Indescision App',
-    subtitle: 'More info',
-    options: ['One', 'Two']
+    title: 'Indecision App',
+    subtitle: 'Let your decisions in hands of a computer',
+    options: []
 };
 
-var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        app.title
-    ),
-    app.subtitle && React.createElement(
-        'p',
-        null,
-        app.subtitle
-    ),
-    React.createElement(
-        'p',
-        null,
-        app.options ? 'Here are your options' : 'No options'
-    )
-);
+var onSubmitForm = function onSubmitForm(e) {
+    e.preventDefault();
+    var option = e.target.elements.myOption.value;
 
-var user = {
-    name: 'Jesus Castaneda',
-    age: 30,
-    location: 'Monterrey',
-    cities: ['Chihuahua', 'Jimenez', 'Monterrey'],
-    printPlacesLived: function printPlacesLived() {
-        var _this = this;
-
-        this.cities.forEach(function (city) {
-            return console.log(_this.name + ' has lived in ' + city);
-        });
-        // return this.cities.map((city) => this.name + ' has lived in ' + city );
+    if (option) {
+        app.options.push(option);
+        e.target.elements.myOption.value = '';
+        render();
     }
 };
 
-var multiplier = {
-    numbers: [2, 4, 6, 8],
-    multiplyBy: 3,
-    multiply: function multiply() {
-        var _this2 = this;
-
-        return this.numbers.map(function (number) {
-            return number * _this2.multiplyBy;
-        });
-    }
+var remove = function remove() {
+    app.options = [];
+    render();
 };
 
-user.printPlacesLived();
-console.log(multiplier.multiply());
-
-// Arrow functions
-var getLocation = function getLocation(loc) {
-    if (loc) {
-        return React.createElement(
+var render = function render() {
+    var template = React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'h1',
+            null,
+            app.title
+        ),
+        app.subtitle && React.createElement(
             'p',
             null,
-            'Location: ',
-            user.location
-        );
-    }
+            app.subtitle
+        ),
+        React.createElement(
+            'p',
+            null,
+            app.options.length ? 'Here are your options' : 'No options'
+        ),
+        React.createElement(
+            'button',
+            { onClick: remove },
+            'Remove all'
+        ),
+        React.createElement(
+            'ol',
+            null,
+            app.options.map(function (option) {
+                return React.createElement(
+                    'li',
+                    { key: option },
+                    option
+                );
+            })
+        ),
+        React.createElement(
+            'form',
+            { onSubmit: onSubmitForm },
+            React.createElement('input', { type: 'text', name: 'myOption' }),
+            React.createElement(
+                'button',
+                { type: 'submit' },
+                'Add'
+            )
+        )
+    );
+
+    var appRoot = document.getElementById('app');
+
+    ReactDOM.render(template, appRoot);
 };
 
-var templateTwo = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        user.name || 'Anonymous'
-    ),
-    user.age >= 18 && React.createElement(
-        'p',
-        null,
-        'Age: ',
-        user.age
-    ),
-    getLocation(user.location)
-);
-
-var appRoot = document.getElementById('app');
-
-ReactDOM.render(templateTwo, appRoot);
+render();

@@ -1,61 +1,47 @@
-console.log('app.js is running');
-
 // JSX = Javascript XML
-
 const app = {
-    title: 'Indescision App',
-    subtitle: 'More info',
-    options: ['One', 'Two']
+    title: 'Indecision App',
+    subtitle: 'Let your decisions in hands of a computer',
+    options: []
 }
 
-const template = (
-    <div>
-        <h1>{app.title}</h1>
-        {app.subtitle && <p>{app.subtitle}</p>}
-        <p>{app.options ? 'Here are your options' : 'No options'}</p>
-    </div>
-);
+const onSubmitForm = (e) => {
+    e.preventDefault();
+    const option = e.target.elements.myOption.value;
 
-const user = {
-    name: 'Jesus Castaneda',
-    age: 30,
-    location: 'Monterrey',
-    cities: ['Chihuahua', 'Jimenez', 'Monterrey'],
-    printPlacesLived() {
-        this.cities.forEach((city) => console.log(this.name + ' has lived in ' + city));
-        // return this.cities.map((city) => this.name + ' has lived in ' + city );
+    if (option) {
+        app.options.push(option);
+        e.target.elements.myOption.value = '';
+        render();
     }
 }
 
-const multiplier = {
-    numbers: [2, 4, 6, 8],
-    multiplyBy: 3,
-    multiply() {
-        return this.numbers.map((number) => number * this.multiplyBy );
-    }
+const remove = () => {
+    app.options = [];
+    render();
 }
 
-user.printPlacesLived();
-console.log(multiplier.multiply());
+const render = () => {
+    const template = (
+        <div>
+            <h1>{app.title}</h1>
+            {app.subtitle && <p>{app.subtitle}</p>}
+            <p>{app.options.length ? 'Here are your options' : 'No options'}</p>
+            <button onClick={remove}>Remove all</button>
+            <ol>
+                {app.options.map((option) => <li key={option}>{option}</li>)}
+            </ol>
+            <form onSubmit={onSubmitForm}>
+                <input type='text' name='myOption' />
+                <button type='submit'>Add</button>
+            </form>
+        </div>
+    );
 
-
-// Arrow functions
-const getLocation = (loc) => {
-    if(loc) {
-        return <p>Location: {user.location}</p>;
-    }
+    const appRoot = document.getElementById('app');
+    
+    ReactDOM.render(template, appRoot);
 }
 
+render();
 
-
-const templateTwo = (
-    <div>
-        <h1>{user.name || 'Anonymous'}</h1>
-        {user.age >= 18 && <p>Age: {user.age}</p>}
-        {getLocation(user.location)}
-    </div>
-);
-
-const appRoot = document.getElementById('app');
-
-ReactDOM.render(templateTwo, appRoot);
