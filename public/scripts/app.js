@@ -33,9 +33,35 @@ var template = React.createElement(
 var user = {
     name: 'Jesus Castaneda',
     age: 30,
-    location: 'Monterrey'
+    location: 'Monterrey',
+    cities: ['Chihuahua', 'Jimenez', 'Monterrey'],
+    printPlacesLived: function printPlacesLived() {
+        var _this = this;
+
+        this.cities.forEach(function (city) {
+            return console.log(_this.name + ' has lived in ' + city);
+        });
+        // return this.cities.map((city) => this.name + ' has lived in ' + city );
+    }
 };
-function getLocation(loc) {
+
+var multiplier = {
+    numbers: [2, 4, 6, 8],
+    multiplyBy: 3,
+    multiply: function multiply() {
+        var _this2 = this;
+
+        return this.numbers.map(function (number) {
+            return number * _this2.multiplyBy;
+        });
+    }
+};
+
+user.printPlacesLived();
+console.log(multiplier.multiply());
+
+// Arrow functions
+var getLocation = function getLocation(loc) {
     if (loc) {
         return React.createElement(
             'p',
@@ -44,7 +70,8 @@ function getLocation(loc) {
             user.location
         );
     }
-}
+};
+
 var templateTwo = React.createElement(
     'div',
     null,
