@@ -1,60 +1,62 @@
-// JSX = Javascript XML
-const app = {
-    title: 'Indecision App',
-    subtitle: 'Let your decisions in hands of a computer',
-    options: [],
-    showError: false,
-    errorMsg: 'You need enter a valid option'
-}
-
-const onSubmitForm = (e) => {
-    e.preventDefault();
-    const option = e.target.elements.myOption.value;
-
-    if (option) {
-        app.options.push(option);
-        e.target.elements.myOption.value = '';
-        app.showError = false;
-        render();
-    } else {
-        app.showError = true;
-        render();
+class IndecisionApp extends React.Component {
+    render() {
+        return (
+            <div>
+                <Header />
+                <Action />
+                <Options />
+                <AddOption />
+            </div>
+        );
     }
 }
 
-const remove = () => {
-    app.options = [];
-    render();
-};
-
-const makeDecision = () => {
-    const randomNum = Math.floor(Math.random() * app.options.length);
-    const option = app.options[randomNum];
-    alert(option);
-};
-
-const render = () => {
-    const template = (
-        <div>
-            <h1>{app.title}</h1>
-            {app.subtitle && <p>{app.subtitle}</p>}
-            <p>{app.options.length ? 'Here are your options' : 'No options'}</p>
-            {app.options.length > 0 && <button onClick={makeDecision}>What should i do?</button>}
-            {app.options.length > 0 && <button onClick={remove}>Remove all</button>}
-            <ol>
-                {app.options.map((option) => <li key={option}>{option}</li>)}
-            </ol>
-            {app.showError && <p>{app.errorMsg}</p>}
-            <form onSubmit={onSubmitForm}>
-                <input type='text' name='myOption' />
-                <button type='submit'>Add</button>
-            </form>
-        </div>
-    );
-
-    const appRoot = document.getElementById('app');
-    
-    ReactDOM.render(template, appRoot);
+class Header extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>Indecision App</h1>
+                <h2>Put your live in the hands of a computer</h2>
+            </div>
+        );
+    }
 }
 
-render();
+class Action extends React.Component {
+    render() {
+        return (
+            <div>
+                <button>What should I do?</button>
+            </div>
+        );
+    }
+}
+
+class Options extends React.Component {
+    render() {
+        return (
+            <div>
+                <p>This will be an options list.</p>
+                <Option />
+            </div>
+        );
+    }
+}
+
+class Option extends React.Component {
+    render() {
+        return (
+            <div>This will be an option.</div>
+        );
+    }
+}
+
+class AddOption extends React.Component {
+    render() {
+        return (
+            <div>This is an add option button.</div>
+        );
+    }
+}
+
+ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
