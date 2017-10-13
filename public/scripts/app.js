@@ -8,46 +8,31 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var IndecisionApp = function (_React$Component) {
-    _inherits(IndecisionApp, _React$Component);
+var VisibilityToggle = function (_React$Component) {
+    _inherits(VisibilityToggle, _React$Component);
 
-    function IndecisionApp() {
-        _classCallCheck(this, IndecisionApp);
+    function VisibilityToggle(props) {
+        _classCallCheck(this, VisibilityToggle);
 
-        return _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (VisibilityToggle.__proto__ || Object.getPrototypeOf(VisibilityToggle)).call(this, props));
+
+        _this.handleVisibility = _this.handleVisibility.bind(_this);
+        _this.state = {
+            visibility: false
+        };
+        return _this;
     }
 
-    _createClass(IndecisionApp, [{
-        key: 'render',
-        value: function render() {
-            var title = 'Indecision App';
-            var subtitle = 'Put your live in the hands of a computer';
-            var options = ['Option One', 'Option Two', 'Option three'];
-
-            return React.createElement(
-                'div',
-                null,
-                React.createElement(Header, { title: title, subtitle: subtitle }),
-                React.createElement(Action, null),
-                React.createElement(Options, { options: options }),
-                React.createElement(AddOption, null)
-            );
+    _createClass(VisibilityToggle, [{
+        key: 'handleVisibility',
+        value: function handleVisibility() {
+            this.setState(function (prevState) {
+                return {
+                    visibility: !prevState.visibility
+                };
+            });
         }
-    }]);
-
-    return IndecisionApp;
-}(React.Component);
-
-var Header = function (_React$Component2) {
-    _inherits(Header, _React$Component2);
-
-    function Header() {
-        _classCallCheck(this, Header);
-
-        return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
-    }
-
-    _createClass(Header, [{
+    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
@@ -56,154 +41,45 @@ var Header = function (_React$Component2) {
                 React.createElement(
                     'h1',
                     null,
-                    this.props.title
+                    'Visibility toggle'
                 ),
                 React.createElement(
-                    'h2',
+                    'button',
+                    { onClick: this.handleVisibility },
+                    this.state.visibility ? 'Hide details' : 'Show details'
+                ),
+                this.state.visibility && React.createElement(
+                    'p',
                     null,
-                    this.props.subtitle
+                    'Hey, you can see now these details!'
                 )
             );
         }
     }]);
 
-    return Header;
+    return VisibilityToggle;
 }(React.Component);
 
-var Action = function (_React$Component3) {
-    _inherits(Action, _React$Component3);
+ReactDOM.render(React.createElement(VisibilityToggle, null), document.getElementById('app'));
 
-    function Action() {
-        _classCallCheck(this, Action);
+// let visibility = false;
 
-        return _possibleConstructorReturn(this, (Action.__proto__ || Object.getPrototypeOf(Action)).apply(this, arguments));
-    }
+// const changeVisibility = () => {
+//     visibility = !visibility;
+//     render();
+// };
 
-    _createClass(Action, [{
-        key: 'handlePick',
-        value: function handlePick() {
-            alert('handlePick');
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                null,
-                React.createElement(
-                    'button',
-                    { onClick: this.handlePick },
-                    'What should I do?'
-                )
-            );
-        }
-    }]);
+// const render = () => {
+//     const jsx = (
+//         <div>
+//             <h1>Visibility toggle</h1>
+//             <button onClick={changeVisibility}>
+//                 {visibility ? 'Hide details' : 'Show details'}
+//             </button>
+//             {visibility && <p>Hey, you can see now these details!</p>}
+//         </div>
+//     );
+//     ReactDOM.render(jsx, document.getElementById('app'));
+// };
 
-    return Action;
-}(React.Component);
-
-var Options = function (_React$Component4) {
-    _inherits(Options, _React$Component4);
-
-    function Options(props) {
-        _classCallCheck(this, Options);
-
-        var _this4 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
-
-        _this4.handleRemoveAll = _this4.handleRemoveAll.bind(_this4);
-        return _this4;
-    }
-
-    _createClass(Options, [{
-        key: 'handleRemoveAll',
-        value: function handleRemoveAll() {
-            alert(this.props.options);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                null,
-                React.createElement(
-                    'button',
-                    { onClick: this.handleRemoveAll },
-                    'Remove all'
-                ),
-                this.props.options.map(function (option) {
-                    return React.createElement(Option, { key: option, optionText: option });
-                })
-            );
-        }
-    }]);
-
-    return Options;
-}(React.Component);
-
-var Option = function (_React$Component5) {
-    _inherits(Option, _React$Component5);
-
-    function Option() {
-        _classCallCheck(this, Option);
-
-        return _possibleConstructorReturn(this, (Option.__proto__ || Object.getPrototypeOf(Option)).apply(this, arguments));
-    }
-
-    _createClass(Option, [{
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                null,
-                this.props.optionText
-            );
-        }
-    }]);
-
-    return Option;
-}(React.Component);
-
-var AddOption = function (_React$Component6) {
-    _inherits(AddOption, _React$Component6);
-
-    function AddOption() {
-        _classCallCheck(this, AddOption);
-
-        return _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).apply(this, arguments));
-    }
-
-    _createClass(AddOption, [{
-        key: 'handleAddOption',
-        value: function handleAddOption(e) {
-            e.preventDefault();
-            var option = e.target.elements.myOption.value.trim();
-
-            if (option) {
-                alert(option);
-                e.target.elements.myOption.value = '';
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                null,
-                React.createElement(
-                    'form',
-                    { onSubmit: this.handleAddOption },
-                    React.createElement('input', { type: 'text', name: 'myOption' }),
-                    React.createElement(
-                        'button',
-                        null,
-                        'Add'
-                    )
-                )
-            );
-        }
-    }]);
-
-    return AddOption;
-}(React.Component);
-
-ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
+// render();
