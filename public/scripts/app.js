@@ -65,7 +65,7 @@ var IndecisionApp = function (_React$Component) {
             return React.createElement(
                 'div',
                 null,
-                React.createElement(Header, { title: this.state.title, subtitle: this.state.subtitle }),
+                React.createElement(Header, null),
                 React.createElement(Action, {
                     handlePick: this.handlePick,
                     disabled: this.state.options.length === 0
@@ -91,12 +91,16 @@ var Header = function Header(props) {
             null,
             props.title
         ),
-        React.createElement(
+        props.subtitle && React.createElement(
             'h2',
             null,
             props.subtitle
         )
     );
+};
+
+Header.defaultProps = {
+    title: 'Indecision App'
 };
 
 var Action = function Action(props) {
