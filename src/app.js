@@ -13,6 +13,30 @@ class IndecisionApp extends React.Component {
         }
     }
 
+    componentDidMount() {
+        try {
+            const json = localStorage.getItem('options');
+            const options = JSON.parse(json);
+
+            if(options) {
+                this.setState(() => ({ options }));
+            }
+        } catch (e) {
+            console.log('Error fetching data.');
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevState.options.length !== this.state.options.length) {
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem('options', json);
+        }
+    }
+
+    componentWillUnmount() {
+        console.log('Unmounting component');
+    }
+
     handlePick() {
         const randomNum = Math.floor(Math.random() * this.state.options.length);
         const option = this.state.options[randomNum];
@@ -86,6 +110,7 @@ const Options = (props) => {
     return (
         <div>
             {props.options.length > 0 && <button onClick={props.handleRemoveAll}>Remove all</button>}
+            {props.options.length === 0 && <p>Please add an option to get started!</p>}
             {
                 props.options.map((option) => (
                     <Option
@@ -102,7 +127,7 @@ const Options = (props) => {
 const Option = (props) => {
     return (
         <div>
-            <p>{props.optionText}</p>
+            {props.optionText}
             <button onClick={(e) => {
                 props.handleRemoveOption(props.optionText);
             }}>

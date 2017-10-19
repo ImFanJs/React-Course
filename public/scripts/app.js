@@ -30,6 +30,35 @@ var IndecisionApp = function (_React$Component) {
     }
 
     _createClass(IndecisionApp, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            try {
+                var json = localStorage.getItem('options');
+                var options = JSON.parse(json);
+
+                if (options) {
+                    this.setState(function () {
+                        return { options: options };
+                    });
+                }
+            } catch (e) {
+                console.log('Error fetching data.');
+            }
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps, prevState) {
+            if (prevState.options.length !== this.state.options.length) {
+                var json = JSON.stringify(this.state.options);
+                localStorage.setItem('options', json);
+            }
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            console.log('Unmounting component');
+        }
+    }, {
         key: 'handlePick',
         value: function handlePick() {
             var randomNum = Math.floor(Math.random() * this.state.options.length);
@@ -134,6 +163,11 @@ var Options = function Options(props) {
             { onClick: props.handleRemoveAll },
             'Remove all'
         ),
+        props.options.length === 0 && React.createElement(
+            'p',
+            null,
+            'Please add an option to get started!'
+        ),
         props.options.map(function (option) {
             return React.createElement(Option, {
                 key: option,
@@ -148,11 +182,7 @@ var Option = function Option(props) {
     return React.createElement(
         'div',
         null,
-        React.createElement(
-            'p',
-            null,
-            props.optionText
-        ),
+        props.optionText,
         React.createElement(
             'button',
             { onClick: function onClick(e) {
